@@ -11,7 +11,7 @@ class WidgetEntity {
   final String codigo;
   final String imagen;
   final String ruta;
-  final List<PropiedadDetallada> propiedadesDetalladas;
+  final List<PropiedadDetallada> propiedadesDetalladas; //  porque es una lista de propiedades detalladas
   final List<UsosComunes> usosComunes;
   final List<ConstructorComun> constructoresComunes;
   final List<WidgetRelacionado> widgetsRelacionados;

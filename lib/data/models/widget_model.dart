@@ -153,24 +153,37 @@ class WidgetsRelacionadosModel extends WidgetRelacionado {
 }
 
 
+/**
+ * Descomponiendo el código: de JSON a Objetos Dart
+La línea de código que mostraste es un ejemplo perfecto de cómo convertir una lista de mapas (que es como se representa una lista de objetos en JSON) en una lista de objetos de una clase de Dart.
 
-// sintaxis para la CLASE DE EJEMPLO 
-//class nom_class extends clase_de_domain_entidad{
-//   required super.atribulto_de_clase_extendida;
+propiedadesDetalladas: (json['propiedades_detalladas'] as List).map((e) => PropiedadDetallada(id: e['id'], nombre: e['nombre'],)).toList(),
 
-    // Se convierte de JSON a modelo
+Aquí está el desglose paso a paso:
 
-//   factory class_name_model .fromJson(Map<tipo_dato_json_clave_valor> json){
-//     return class_name_model(
-//       atribulto_de_clase_extendida: json["valor_de_JSON"],
-//     );
-//   }
+json['propiedades_detalladas']
 
-    // Se convierte de modelo a JSON
-// Map <String,dynamic> toJson()=>{
-//   "valor_de_JSON":atribulto_de_clase_extendida
-// };
-//}
+Primero, se accede al valor de la clave propiedades_detalladas dentro del mapa json. Se asume que este valor es una lista, que en Dart se interpreta como List<dynamic>.
 
+as List
+
+Este es un cast o "moldeado" de tipo. Se le dice explícitamente a Dart que el valor que se obtiene es una List. Esto es una buena práctica para asegurar que el código funcione como se espera.
+
+.map((e) => PropiedadDetallada(...))
+
+Aquí es donde ocurre la magia. El método map() se aplica a la lista obtenida.
+
+e es una variable que representa cada elemento de la lista. En este caso, cada elemento es un Map (un objeto JSON) con las claves 'id' y 'nombre'.
+
+La función de flecha (e) => ... indica que se debe ejecutar el código a la derecha para cada elemento.
+
+PropiedadDetallada(id: e['id'], nombre: e['nombre'],) crea una nueva instancia de la clase PropiedadDetallada para cada mapa. Se toman los valores de las claves 'id' y 'nombre' de cada mapa y se usan para inicializar el nuevo objeto.
+
+.toList()
+
+Como vimos en los ejemplos anteriores, el método map() no devuelve directamente una List, sino un Iterable. Para obtener una lista real de objetos PropiedadDetallada, se utiliza toList() al final. Esto convierte el Iterable resultante en una List.
+
+El resultado final de esta línea de código es una lista (List<PropiedadDetallada>) que contiene objetos de la clase PropiedadDetallada, cada uno inicializado con los datos de sus respectivos mapas JSON.
+ */
 
 

@@ -6,155 +6,72 @@
 
 ```
 /lib
-├── core/                      ← Constantes, errores, utilidades
+├── core/                      // Constantes, errores, utilidades
 │   ├── errors/
 │   └── utils/
-├── data/                      ← Acceso a datos crudos (ej. JSON)
+├── data/                      // Acceso a datos crudos (ej. JSON)
 │   ├── datasources/
-│   │   └── widget_local_data_source.dart  ← Carga de JSON local
+│   │   └── widget_local_data_source.dart  // Carga de JSON local
 │   ├── models/
-│   │   └── widget_model.dart              ← Modelos con fromJson/toJson
+│   │   └── widget_model.dart              // Modelos con fromJson/toJson
 │   └── repositories/
-│       └── widget_repository_impl.dart    ← Implementación concreta del repositorio
+│       └── widget_repository_impl.dart    // Implementación concreta del repositorio
 ├── domain/
 │   ├── entities/
-│   │   └── widget_entity.dart             ← Entidades con atributos y constructores
+│   │   └── widget_entity.dart             // Entidades con atributos y constructores
 │   ├── repositories/
-│   │   └── widget_repository.dart         ← Repositorio abstracto
+│   │   └── widget_repository.dart         // Repositorio abstracto
 │   └── usecases/
-│       └── get_widgets.dart               ← Lógica de negocio (casos de uso)
+│       └── get_widgets.dart               // Lógica de negocio (casos de uso)
 ├── presentation/
-│   ├── pages/                            ← Pantallas
-│   ├── widgets/                          ← Widgets UI reutilizables
-│   └── providers/                        ← Controladores / manejo de estado con Provider o Riverpod
-└── main.dart                            ← Punto de entrada de la app
+│   ├── screens/                            // Pantallas
+│   ├── widgets/                          // Widgets UI reutilizables
+│   └── providers/                        // Controladores / manejo de estado con Provider o Riverpod
+└── main.dart                            // Punto de entrada de la app
 ```
 
 ---
 
 ## Notas sobre Clean Architecture
 
-* Separar claramente responsabilidades en capas: `data`, `domain`, `presentation`.
-* Evitar dependencias directas entre `presentation` y `data`.
-* Usar repositorios abstractos en `domain` para desacoplar.
-* Mantener lógica de negocio dentro de los casos de uso (`usecases`).
+* Capas separadas: `data`, `domain`, `presentation`.
+* `domain` define contratos y lógica de negocio.
+* `data` implementa esos contratos y gestiona datos crudos.
+* `presentation` consume la lógica usando `Provider` para manejo de estado.
+* No hay dependencias directas entre `presentation` y `data`.
 
----
+## Uso de Provider en este Proyecto
 
-## Provider en Flutter
+* Providers ubicados en `/presentation/providers`.
+* Cada provider extiende `ChangeNotifier`.
+* Registro en `main.dart` usando `MultiProvider`.
+* `context.watch` para escuchar cambios y reconstruir UI.
+* `context.read` para ejecutar acciones sin reconstruir UI.
 
-### ¿Qué es Provider?
+## Buenas Prácticas Aplicadas
 
-`Provider` es un paquete para manejar estado en Flutter. Permite compartir datos y lógica entre widgets y actualizar automáticamente la UI cuando los datos cambian.
+* Lógica de negocio aislada en `/domain/usecases`.
+* Providers enfocados solo en manejo de estado, sin lógica de UI.
+* UI dividida en widgets reutilizables.
+* Uso de repositorios abstractos en `domain` para desacoplar.
+* Constantes y utilidades centralizadas en `/core`.
 
-### ¿Cuándo usar Provider?
+## Resumen Rápido
 
-* Compartir información entre múltiples widgets o pantallas.
-* Actualizar UI en respuesta a cambios de estado.
-* Separar lógica de negocio y presentación.
+* Organiza estado en `/presentation/providers`.
+* Crea clases `ChangeNotifier` para manejar estado.
+* Registra providers globalmente en `main.dart`.
+* Usa `watch` para mostrar datos y `read` para acciones.
+* Aplica `notifyListeners()` para actualizar la UI.
+## Nota de aprendizaje
 
----
+*Este proyecto fue desarrollado como parte de mi aprendizaje de Clean Architecture en Flutter.
+Durante su construcción investigué, adapté y escribí código basado en ejemplos, ajustándolo para comprender a fondo:
 
-### Pasos básicos para usar Provider
+- Organización del proyecto por capas (data, domain, presentation)
 
-1. Crear una carpeta `/providers` para organizar tus controladores.
-2. Crear clases que extiendan `ChangeNotifier`.
-3. Registrar los providers en `main.dart` usando `ChangeNotifierProvider` o `MultiProvider`.
-4. Acceder al estado con `context.watch<T>()` (para escuchar cambios y reconstruir) o `context.read<T>()` (para ejecutar acciones sin reconstruir UI).
+- Uso de Provider para manejo de estado
 
----
+- Creación y reutilización de widgets personalizados
 
-### Ejemplo básico de Provider
-
-```dart
-// counter_provider.dart
-import 'package:flutter/material.dart';
-
-class CounterProvider extends ChangeNotifier {
-  int _count = 0;
-  int get count => _count;
-
-  void increment() {
-    _count++;
-    notifyListeners();
-  }
-}
-```
-
-```dart
-// main.dart
-import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
-import 'counter_provider.dart';
-
-void main() {
-  runApp(
-    MultiProvider(
-      providers: [
-        ChangeNotifierProvider(create: (_) => CounterProvider()),
-      ],
-      child: MyApp(),
-    ),
-  );
-}
-
-class MyApp extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return MaterialApp(home: CounterScreen());
-  }
-}
-
-class CounterScreen extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    final counter = context.watch<CounterProvider>();
-
-    return Scaffold(
-      appBar: AppBar(title: Text("Contador con Provider")),
-      body: Center(child: Text("Contador: ${counter.count}", style: TextStyle(fontSize: 24))),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () => context.read<CounterProvider>().increment(),
-        child: Icon(Icons.add),
-      ),
-    );
-  }
-}
-```
-
----
-
-### Diferencias entre `watch` y `read`
-
-| Método               | Escucha cambios | Reconstruye UI | Uso típico                    |
-| -------------------- | --------------- | -------------- | ----------------------------- |
-| `context.watch<T>()` | Sí              | Sí             | Mostrar datos que cambian     |
-| `context.read<T>()`  | No              | No             | Ejecutar acciones sin rebuild |
-
----
-
-### ¿Qué hace `notifyListeners()`?
-
-Llama a todos los widgets que están escuchando al provider para que se reconstruyan con los nuevos datos.
-
----
-
-### Buenas prácticas
-
-* Usa `MultiProvider` para agrupar varios providers.
-* Mantén la lógica de estado dentro de tus providers, no en los widgets.
-* Nombra tus providers claramente (`WidgetDataProvider`, `ThemeProvider`).
-* Organiza tus providers en una carpeta `/providers`.
-* Separa la UI de la lógica de negocio para facilitar mantenimiento y testing.
-
----
-
-### Resumen rápido
-
-* 📁 Organiza estados en `/providers`
-* 🧠 Crea clases con `ChangeNotifier`
-* 🛠 Registra providers en `main.dart` con `ChangeNotifierProvider` o `MultiProvider`
-* 👁 Usa `watch` para leer datos y reconstruir UI
-* 🕹 Usa `read` para ejecutar acciones sin rebuild
-* 🔁 Usa `notifyListeners()` para actualizar la UI
-
+- Configuración de ThemeData para estilos globales

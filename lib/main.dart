@@ -4,7 +4,7 @@ import 'package:provider/provider.dart';
 import 'package:http/http.dart' as http;
 import 'package:google_fonts/google_fonts.dart';
 import 'presentation/screens/HomeScreen.dart';
-import 'providers/widget_provider.dart';
+import 'presentation/providers/widget_provider.dart';
 
 import 'data/datasources/widget_remote_datasource.dart';
 import 'domain/usecases/get_widget.dart';
@@ -100,6 +100,7 @@ class LearningFlutterApp extends StatelessWidget {
             color: Colors.grey.shade900,
             fontWeight: FontWeight.bold,
             fontSize: 16,
+            //TextAlign:TextAlign.justify,
           ),
           bodyMedium: TextStyle(
             // Texto secundario

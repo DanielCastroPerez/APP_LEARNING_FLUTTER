@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:learning_flutter/domain/entities/widget_entity.dart';
-import 'package:learning_flutter/providers/widget_provider.dart';
-//import 'package:learning_flutter/widgets/widget_card.dart';
+import 'package:learning_flutter/presentation/providers/widget_provider.dart';
+import 'package:learning_flutter/presentation/widgets/WidgetCard.dart';
 import 'package:provider/provider.dart';
 
+
+// HomeScreen muestra una lista de widgets usando WidgetCard y se construlle con un GridView.builder ya que no se sabe cuantos tendra
+// Carga los datos desde WidgetProvider y maneja estados de carga y error
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
 
@@ -25,10 +28,7 @@ class _HomeScreenState extends State<HomeScreen> {
   Widget build(BuildContext context) {
     // Usamos Consumer para escuchar cambios en WidgetProvider y reconstruir UI
     return Scaffold(
-      appBar: AppBar(
-        title: const Text("Lista de Widgets"),
-        centerTitle: true,
-      ),
+      appBar: AppBar(title: const Text("Lista de Widgets"), centerTitle: true),
       body: Consumer<WidgetProvider>(
         builder: (context, widgetProvider, child) {
           // 1. Si está cargando, mostramos un indicador
@@ -50,22 +50,20 @@ class _HomeScreenState extends State<HomeScreen> {
           final widgetData = widgetProvider.widgetsData;
           // Aquí convertimos el único widget que tienes en lista para mostrar,
           // pero si luego tienes lista real, solo usa widgetData directamente.
-          final List<WidgetEntity> widgetsList = [widgetData[0]];
+          final List<WidgetEntity> widgetsList = widgetData;
 
           return Padding(
             padding: const EdgeInsets.all(8.0),
             child: GridView.builder(
-              gridDelegate:  SliverGridDelegateWithFixedCrossAxisCount(
-                crossAxisCount: MediaQuery.of(context).size.width > 600 ? 3 : 2,  // Cambia el número de columnas según la pantalla
+              gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                crossAxisCount: MediaQuery.of(context).size.width > 600? 3: 2, // Cambia el número de columnas según la pantalla
                 crossAxisSpacing: 8,
                 mainAxisSpacing: 8,
                 childAspectRatio: 1.2,
               ),
               itemCount: widgetsList.length,
               itemBuilder: (context, index) {
-                
-                return Container();
-                //return WidgetCard(widgetEntity: widgetsList[index]);
+                return WidgetCard(widgetEntity: widgetsList[index]);
               },
             ),
           );
