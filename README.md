@@ -35,8 +35,8 @@
 ## Notas sobre Clean Architecture
 
 * Capas separadas: `data`, `domain`, `presentation`.
-* `domain` define contratos y lógica de negocio.
-* `data` implementa esos contratos y gestiona datos crudos.
+* `domain` define contratos y lógica de negocio. solo van las clases y su constructor
+* `data` implementa esos contratos y gestiona datos crudos. reciben datos de un json y se las pasa a `domain` y doman guada esa informacio en las clases 
 * `presentation` consume la lógica usando `Provider` para manejo de estado.
 * No hay dependencias directas entre `presentation` y `data`.
 

@@ -158,3 +158,30 @@ Llama a todos los widgets que están escuchando al provider para que se reconstr
 * 🕹 Usa `read` para ejecutar acciones sin rebuild
 * 🔁 Usa `notifyListeners()` para actualizar la UI
 
+### carpeta Domain todos apuntan a [WidgetEntity]
+
+En Clean Architecture, en la capa domain todos los casos de uso y contratos (interfaces) deberían trabajar únicamente con entidades puras (WidgetEntity en tu caso) y nunca con modelos (WidgetModel).
+
+¿Por qué todos apuntan a WidgetEntity?
+
+Porque:
+
+* El dominio no sabe nada de cómo llegan los datos
+  No le importa si vienen de una API, una base de datos local o un archivo.
+  Solo le importa qué datos necesita y qué operaciones puede hacer.
+
+* Evita dependencias innecesarias
+  El dominio es la parte más estable de la aplicación. Si mañana cambias la API o el formato del JSON, el dominio no se rompe, solo cambias en la capa data.
+
+Facilita pruebas unitarias
+Como trabajas con WidgetEntity, puedes simular datos sin necesidad de levantar servidores o APIs.
+
+Flujo que seguimos:
+API JSON → WidgetModel (data) → WidgetEntity (domain) → UseCase → Provider → UI
+
+
+WidgetModel sí sabe cómo convertir JSON a datos.
+
+WidgetEntity es puro: solo tiene propiedades y representa el negocio.
+
+Los use cases y repositorios del dominio solo manejan WidgetEntity.

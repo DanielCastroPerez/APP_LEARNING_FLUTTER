@@ -8,6 +8,7 @@ class WidgetDetailScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    debugPrint("WidgetCard: ${widgetEntity.imagen}");
     return Scaffold(
       appBar: AppBar(title: Text(widgetEntity.nombre)),
 

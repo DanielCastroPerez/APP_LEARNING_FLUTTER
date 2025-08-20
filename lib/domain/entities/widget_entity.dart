@@ -1,7 +1,8 @@
 
 // En este archivo se declaran las entidades, que representan las estructuras principales de dominio (similares a los esquemas/modelos en FastAPI)
-// Cada clase debe tener sus atributos con su tipo de dato correspondiente
 // Las listas como uso, constructores y relacionados deben declararse como clases independientes porque son entidades con su propia estructura  
+// WidgetEntity contendra toda la informacion que se obtenga del json
+
 
 class WidgetEntity {
   final int id;
@@ -11,7 +12,7 @@ class WidgetEntity {
   final String codigo;
   final String imagen;
   final String ruta;
-  final List<PropiedadDetallada> propiedadesDetalladas; //  porque es una lista de propiedades detalladas
+  final List<PropiedadDetallada> propiedadesDetalladas; //  Usamos List<PropiedadDetallada> porque es una lista de objetos de tipo PropiedadDetallada
   final List<UsosComunes> usosComunes;
   final List<ConstructorComun> constructoresComunes;
   final List<WidgetRelacionado> widgetsRelacionados;

@@ -1,8 +1,11 @@
 import 'package:learning_flutter/domain/entities/widget_entity.dart';
 
 // Esta clase es para el modelo de la data donde convierto un modelo a JSON (fromJson) y de JSON a modelo (toJson)
-/// Heredo de la clase de domain/entidades/widget_entity.dart y pongo super para sus atributos
+// Heredo de la clase de domain/entidades/widget_entity.dart y pongo super para sus atributos
 
+
+///  Convierte el JSON a un modelo y de modelo a entidad.
+///  Esta capa traduce la respuesta del backend para que el [dominio] trabaje con datos puros y limpios.
 class WidgetModel extends WidgetEntity {
   WidgetModel({
     required super.id,
@@ -29,7 +32,7 @@ class WidgetModel extends WidgetEntity {
       ruta: json['ruta'],
       
       propiedadesDetalladas: (json['propiedades_detalladas'] as List)
-          .map((e) => PropiedadDetallada(
+          .map((e) => PropiedadDetallada( // Convierte cada elemento de la lista a un objeto PropiedadDetallada
                 id: e['id'],
                 nombre: e['nombre'],
                 tipo: e['tipo'],
@@ -84,7 +87,7 @@ class PropiedadDetalladaModel extends PropiedadDetallada {
   }
 
 
-  /// sirve para enviar datos al backend. Si vas a enviar datos (POST, PUT)
+  /// Sirve para enviar datos al backend. Si vas a enviar datos (POST, PUT)
   Map<String, dynamic> toJson() => {
     "id": id,
     "nombre": nombre,
