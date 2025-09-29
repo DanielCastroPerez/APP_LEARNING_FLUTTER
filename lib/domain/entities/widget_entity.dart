@@ -1,7 +1,4 @@
 
-// En este archivo se declaran las entidades, que representan las estructuras principales de dominio (similares a los esquemas/modelos en FastAPI)
-// Las listas como uso, constructores y relacionados deben declararse como clases independientes porque son entidades con su propia estructura  
-// WidgetEntity contendra toda la informacion que se obtenga del json
 
 
 class WidgetEntity {

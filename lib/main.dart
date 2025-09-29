@@ -10,30 +10,22 @@ import 'data/datasources/widget_remote_datasource.dart';
 import 'domain/usecases/get_widget.dart';
 
 void main() {
-  // Crear el cliente HTTP
   final client = http.Client();
 
-  // Crear el data source
   final remoteDataSource = WidgetRemoteDataSourceImpl(
     client: client,
     baseUrl: 'http://10.0.2.2:8000',
   );
 
-  // Crear el repositorio
   final repository = WidgetRepositoryImpl(remoteDataSource: remoteDataSource);
 
-  // Crear el use case
   final getWidgetUseCase = GetWidgetUseCase(repository: repository);
 
   runApp(
     MultiProvider(
-      // Si creas multiples providers, se deben de crear agregar en  providers[]
       providers: [
-        // Creo un provider para cada use case
         ChangeNotifierProvider(
-          create: (_) => WidgetProvider(
-            getWidgetUseCase: getWidgetUseCase,
-          ), // Mando a llamar la case del provide
+          create: (_) => WidgetProvider(getWidgetUseCase: getWidgetUseCase),
         ),
       ],
       child: const LearningFlutterApp(),
@@ -50,73 +42,55 @@ class LearningFlutterApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       title: 'Learning Flutter App',
       theme: ThemeData(
-        //ThemeData servira para configura el tema *** global*** de la app (tipografías, colores, AppBar, Card, etc.)
-        scaffoldBackgroundColor: Colors
-            .deepPurple
-            .shade50, // Color de todos los scaffold (color de fondo [Andamio]) des pantalla
+        scaffoldBackgroundColor: Colors.deepPurple.shade50,
 
         appBarTheme: const AppBarTheme(
-          //Configura todos los appBar de la app
-          backgroundColor: Colors.deepPurple, // Fondo de todos los AppBar
-          foregroundColor: Colors.white, // Color de texto/iconos
-          elevation: 4.0, // Sombra (altura visual)
+          backgroundColor: Colors.deepPurple,
+          foregroundColor: Colors.white,
+          elevation: 4.0,
         ),
 
         cardTheme: CardThemeData(
-          //Estilo global para todas las tarjetas (Card).
-          elevation: 4.0, // Sombra (altura visual)
+          elevation: 4.0,
           shape: RoundedRectangleBorder(
-            borderRadius: BorderRadiusGeometry.circular(
-              12,
-            ), // Radio de la esquina
+            borderRadius: BorderRadiusGeometry.circular(12),
           ),
         ),
 
         textTheme: GoogleFonts.poppinsTextTheme(
           TextTheme(
-          // Define estilos globales de texto para diferentes niveles
-          displayLarge: TextStyle(
-            // Títulos MUY grandes
-            color: Colors.deepPurple.shade900,
-            fontWeight: FontWeight.bold, // Negrita
-            fontSize: 24.0,
-          ),
+            displayLarge: TextStyle(
+              color: Colors.deepPurple.shade900,
+              fontWeight: FontWeight.bold,
+              fontSize: 24.0,
+            ),
 
-          headlineSmall: TextStyle(
-            // Títulos pequeños
-            color: Colors.deepPurple.shade900,
-            fontWeight: FontWeight.bold, // Negrita
-            fontSize: 20.0,
-          ),
+            headlineSmall: TextStyle(
+              color: Colors.deepPurple.shade900,
+              fontWeight: FontWeight.bold,
+              fontSize: 20.0,
+            ),
 
-          titleLarge: TextStyle(
-            // Títulos intermedios
-            color: Colors.deepPurple.shade900,
-            fontWeight: FontWeight.bold,
-            fontSize: 18,
-          ),
-          bodyLarge: TextStyle(
-            // Texto principal
-            color: Colors.grey.shade900,
-            fontWeight: FontWeight.bold,
-            fontSize: 16,
-            //TextAlign:TextAlign.justify,
-          ),
-          bodyMedium: TextStyle(
-            // Texto secundario
-            color: Colors.grey.shade700,
-            fontWeight: FontWeight.bold,
-            fontSize: 14,
-          ),
-          labelLarge: TextStyle(
-            // Texto de etiquetas o botones
-            color: Colors.white,
+            titleLarge: TextStyle(
+              color: Colors.deepPurple.shade900,
+              fontWeight: FontWeight.bold,
+              fontSize: 18,
+            ),
+            bodyLarge: TextStyle(
+              color: Colors.grey.shade900,
+              fontWeight: FontWeight.bold,
+              fontSize: 16,
+            ),
+            bodyMedium: TextStyle(
+              color: Colors.grey.shade700,
+              fontWeight: FontWeight.bold,
+              fontSize: 14,
+            ),
+            labelLarge: TextStyle(color: Colors.white),
           ),
         ),
-         ),
-        
       ),
-      home: const HomeScreen(), // o tu WidgetScreen
+      home: const HomeScreen(),
     );
   }
 }

@@ -3,7 +3,7 @@ import 'package:learning_flutter/domain/entities/widget_entity.dart';
 import 'package:learning_flutter/presentation/widgets/CodeBlock.dart';
 
 class WidgetDetailScreen extends StatelessWidget {
-  final WidgetEntity widgetEntity; // Recibe un WidgetEntity para mostrar sus detalles
+  final WidgetEntity widgetEntity;
   const WidgetDetailScreen({super.key, required this.widgetEntity});
 
   @override
@@ -13,26 +13,20 @@ class WidgetDetailScreen extends StatelessWidget {
       appBar: AppBar(title: Text(widgetEntity.nombre)),
 
       body: SingleChildScrollView(
-        // Permite desplazar el contenido si es más grande que la pantalla
         padding: EdgeInsets.all(16.0),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
-
-            // Imagen del widget
-            // Hero widget para animación de transición
-
-            Hero(  
+            Hero(
               tag: "widget-${widgetEntity.nombre}",
               child: ClipRRect(
-                // ClipRRect para redondear las esquinas de la imagen
                 borderRadius: BorderRadius.circular(16.0),
                 child: Image.network(
                   widgetEntity.imagen,
                   height: 200,
-                  width: double.infinity, // Ocupa todo el ancho disponible
+                  width: double.infinity,
                   fit: BoxFit.cover,
-                  errorBuilder:  // Manejador de errores si la imagen no se carga
+                  errorBuilder:
                       (
                         BuildContext context,
                         Object error,
@@ -56,18 +50,17 @@ class WidgetDetailScreen extends StatelessWidget {
             ),
             SizedBox(height: 16.0),
 
-            // Mostramos un titulo grande con el nombre del widget
             Text(
               "Descripción General",
               style: Theme.of(context).textTheme.headlineSmall,
             ),
 
-            Divider(), // Línea divisoria para separar secciones y se vea chido
-            // Mostramos la descripción del widget
+            Divider(),
+
             Text(
               widgetEntity.descripcion,
               style: Theme.of(context).textTheme.bodyLarge,
-              textAlign :TextAlign.justify,
+              textAlign: TextAlign.justify,
             ),
 
             Divider(),
@@ -79,11 +72,9 @@ class WidgetDetailScreen extends StatelessWidget {
 
             Divider(),
 
-            // Mapeamos las propiedades detalladas a widgets
-            ...widgetEntity.propiedadesDetalladas.map<Widget>(( 
+            ...widgetEntity.propiedadesDetalladas.map<Widget>((
               PropiedadDetallada propiedad,
             ) {
-              // Mapeamos las propiedades detalladas a widgets
               return Padding(
                 padding: EdgeInsets.only(bottom: 16.0),
                 child: Column(
@@ -126,7 +117,7 @@ class WidgetDetailScreen extends StatelessWidget {
             ),
 
             Divider(),
-            // Mostramos los usos comunes del widget
+
             ...widgetEntity.usosComunes.map((UsosComunes uso) {
               return Padding(
                 padding: EdgeInsets.only(bottom: 4.0),
@@ -170,8 +161,8 @@ class WidgetDetailScreen extends StatelessWidget {
 
             ///
             Wrap(
-              spacing: 8.0, // Espacio horizontal entre chips
-              runSpacing: 4.0, // Espacio vertical entre líneas de chips
+              spacing: 8.0,
+              runSpacing: 4.0,
               children: widgetEntity.widgetsRelacionados.map<Widget>((
                 WidgetRelacionado related,
               ) {
