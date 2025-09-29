@@ -6,28 +6,28 @@
 
 ```
 /lib
-├── core/                      // Constantes, errores, utilidades
+├── core/                      
 │   ├── errors/
 │   └── utils/
-├── data/                      // Acceso a datos crudos (ej. JSON)
+├── data/                      
 │   ├── datasources/
-│   │   └── widget_local_data_source.dart  // Carga de JSON local
+│   │   └── widget_local_data_source.dart  
 │   ├── models/
-│   │   └── widget_model.dart              // Modelos con fromJson/toJson
+│   │   └── widget_model.dart              
 │   └── repositories/
-│       └── widget_repository_impl.dart    // Implementación concreta del repositorio
+│       └── widget_repository_impl.dart    
 ├── domain/
 │   ├── entities/
-│   │   └── widget_entity.dart             // Entidades con atributos y constructores
+│   │   └── widget_entity.dart             
 │   ├── repositories/
-│   │   └── widget_repository.dart         // Repositorio abstracto
+│   │   └── widget_repository.dart         
 │   └── usecases/
-│       └── get_widgets.dart               // Lógica de negocio (casos de uso)
+│       └── get_widgets.dart               
 ├── presentation/
-│   ├── screens/                            // Pantallas
-│   ├── widgets/                          // Widgets UI reutilizables
-│   └── providers/                        // Controladores / manejo de estado con Provider o Riverpod
-└── main.dart                            // Punto de entrada de la app
+│   ├── screens/                            
+│   ├── widgets/                          
+│   └── providers/                        
+└── main.dart                            
 ```
 
 ---
