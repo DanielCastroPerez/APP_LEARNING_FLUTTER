@@ -4,9 +4,6 @@ import 'package:learning_flutter/presentation/providers/widget_provider.dart';
 import 'package:learning_flutter/presentation/widgets/WidgetCard.dart';
 import 'package:provider/provider.dart';
 
-
-// HomeScreen muestra una lista de widgets usando WidgetCard y se construlle con un GridView.builder ya que no se sabe cuantos tendra
-// Carga los datos desde WidgetProvider y maneja estados de carga y error
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
 
@@ -18,25 +15,21 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   void initState() {
     super.initState();
-    // Aquí llamamos fetchWidget solo una vez al iniciar la pantalla
-    // Usamos listen: false para no reconstruir widget por este llamado
+
     final widgetProvider = Provider.of<WidgetProvider>(context, listen: false);
     widgetProvider.fetchWidgets();
   }
 
   @override
   Widget build(BuildContext context) {
-    // Usamos Consumer para escuchar cambios en WidgetProvider y reconstruir UI
     return Scaffold(
       appBar: AppBar(title: const Text("Lista de Widgets"), centerTitle: true),
       body: Consumer<WidgetProvider>(
         builder: (context, widgetProvider, child) {
-          // 1. Si está cargando, mostramos un indicador
           if (widgetProvider.isLoading) {
             return const Center(child: CircularProgressIndicator());
           }
 
-          // 2. Si hay error, mostramos mensaje de error
           if (widgetProvider.error != null) {
             return Center(
               child: Text(
@@ -46,17 +39,15 @@ class _HomeScreenState extends State<HomeScreen> {
             );
           }
 
-          // 4. Si hay datos, los mostramos en GridView
           final widgetData = widgetProvider.widgetsData;
-          // Aquí convertimos el único widget que tienes en lista para mostrar,
-          // pero si luego tienes lista real, solo usa widgetData directamente.
+
           final List<WidgetEntity> widgetsList = widgetData;
 
           return Padding(
             padding: const EdgeInsets.all(8.0),
             child: GridView.builder(
               gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                crossAxisCount: MediaQuery.of(context).size.width > 600? 3: 2, // Cambia el número de columnas según la pantalla
+                crossAxisCount: MediaQuery.of(context).size.width > 600 ? 3 : 2,
                 crossAxisSpacing: 8,
                 mainAxisSpacing: 8,
                 childAspectRatio: 1.2,
